@@ -1,5 +1,5 @@
 import { Input, Button, Select } from "@nextui-org/react";
-import { useState, useEffect, useMemo, createContext } from "react";
+import { useState, useEffect, useMemo,} from "react";
 import { BiSearch } from "react-icons/bi";
 import useData from "../hooks/useData";
 import { ApiSearchTitleType } from "../types/ApiSearchTitleType";
@@ -18,7 +18,10 @@ export default function SearchField() {
     return {
       method: 'GET',
       url: `https://moviesdatabase.p.rapidapi.com/titles/search/title/${title}`,
-      params: {titleType: 'movie'},
+      params: {
+        exact: 'false',
+        titleType: 'movie'
+      },
       headers: {
         'X-RapidAPI-Key': import.meta.env.VITE_X_RapidAPI_Key,
         'X-RapidAPI-Host': import.meta.env.VITE_X_RapidAPI_Host
