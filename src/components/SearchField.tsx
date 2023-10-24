@@ -1,5 +1,7 @@
-import { Input, Button, Select } from "@nextui-org/react";
+"use client"
+
 import { useState, useEffect, useMemo,} from "react";
+import { Input, Button, Select } from "@nextui-org/react";
 import { BiSearch } from "react-icons/bi";
 import useData from "../hooks/useData";
 import { ApiSearchTitleType } from "../types/ApiSearchTitleType";
@@ -14,8 +16,23 @@ export default function SearchField() {
   const [data, setData] = useState([])
 
   
-  const options = useMemo(()=>{
-    return {
+  // const options = useMemo(()=>{
+  //   return {
+  //     method: 'GET',
+  //     url: `https://moviesdatabase.p.rapidapi.com/titles/search/title/${title}`,
+  //     params: {
+  //       exact: 'false',
+  //       titleType: 'movie'
+  //     },
+  //     headers: {
+  //       'X-RapidAPI-Key': import.meta.env.VITE_X_RapidAPI_Key,
+  //       'X-RapidAPI-Host': import.meta.env.VITE_X_RapidAPI_Host
+  //     }
+  //   }
+  // },[title]) 
+
+  useEffect(()=>{
+    const options = {
       method: 'GET',
       url: `https://moviesdatabase.p.rapidapi.com/titles/search/title/${title}`,
       params: {
@@ -27,16 +44,13 @@ export default function SearchField() {
         'X-RapidAPI-Host': import.meta.env.VITE_X_RapidAPI_Host
       }
     }
-  },[title]) 
-
-  useEffect(()=>{
     const loadMovies = async() => {
       const response = await axios.request(options)
       setData(response.data.results)
     }
 
     loadMovies()
-  },[clicked, options])
+  },[clicked, title])
   
 
   //FIXME:
@@ -81,7 +95,7 @@ export default function SearchField() {
         </Button>
       </div>
 
-      <div className="bg-slate-300">
+      <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-md p-10 mt-10">
         <MovieApiData.Provider value={data}>
           <FilmList />
         </MovieApiData.Provider>
