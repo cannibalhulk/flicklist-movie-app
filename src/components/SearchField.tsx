@@ -88,7 +88,7 @@ export default function SearchField() {
         </Button>
       </div>
 
-      <div className="min-h-full flex items-start">
+      <div className="min-w-full flex flex-col items-center">
           <Select
             value={selectedYear}
             label="Select a year"
@@ -96,7 +96,7 @@ export default function SearchField() {
             variant="bordered"
             classNames={{
               popover:[
-                "bg-[#5552]"
+                "bg-[#555]"
               ]
             }}
             className="px-4 w-[200px] text-[#fff] placeholder-[30px] font-semibold text-[34px]"
@@ -109,15 +109,18 @@ export default function SearchField() {
                 classNames={{
                   wrapper:[
                     "bg-slate-500"
+                  ],
+                  base:[
+                    "bg-[#444]"
                   ]
                 }}
-                  className="bg-[#333]"
                  key={year.value} value={year.value}>
                   {year.label}
                 </SelectItem>
               ))
             }
           </Select>
+          
       </div>
 
       <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-md p-10 mt-10">
