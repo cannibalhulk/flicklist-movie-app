@@ -1,5 +1,6 @@
 import App from "../App";
 import Movie from "../pages/Movie";
+import MovieDetail from "../pages/MovieDetail";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -12,4 +13,8 @@ export const router = createBrowserRouter([
     path: "/movie",
     element: <Movie />,
   },
+  {
+    path:"/movie/:movieId",
+    element: <MovieDetail/>
+  }
 ]);
