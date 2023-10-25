@@ -18,17 +18,20 @@ export default function SearchField() {
   const options = useMemo(()=>{
     return {
       method: 'GET',
-      url: `https://moviesdatabase.p.rapidapi.com/titles/search/title/${title}`,
+      url: 'https://api.themoviedb.org/3/search/movie',
       params: {
-        exact: 'false',
-        titleType: 'movie'
+        query: `${title}`, 
+        year: selectedYear || null,
+        include_adult: 'false', 
+        language: 'en-US', 
+        page: '1'
       },
       headers: {
-        'X-RapidAPI-Key': import.meta.env.VITE_X_RapidAPI_Key,
-        'X-RapidAPI-Host': import.meta.env.VITE_X_RapidAPI_Host
-      }
+        accept: 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_READ_KEY}`
+  }
     }
-  },[title]) 
+  },[title,selectedYear]) 
 
   useEffect(()=>{
     
@@ -105,16 +108,15 @@ export default function SearchField() {
             {
               years.map((year)=>(
                 <SelectItem
-                aria-label="Year"
-                classNames={{
-                  wrapper:[
-                    "bg-slate-500"
-                  ],
-                  base:[
-                    "bg-[#444]"
-                  ]
-                }}
-                 key={year.value} value={year.value}>
+                  classNames={{
+                    wrapper:[
+                      "bg-slate-500"
+                    ],
+                    base:[
+                      "bg-[#444]"
+                    ]
+                  }}
+                  key={year.value} value={year.value}>
                   {year.label}
                 </SelectItem>
               ))
