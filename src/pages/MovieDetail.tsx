@@ -9,7 +9,7 @@ export  default function MovieDetail () {
 
     return (
         <div className="container">
-            <h1>{movieDetail}</h1>
+
         </div>
     )
 }
@@ -17,16 +17,22 @@ export  default function MovieDetail () {
 export const MovieDetailsLoader= async({params} : {params:MovieDetailsParamsType}) =>{
     const {movieId} = params;
 
-    const options = {
+    const options = useMemo(()=>{
+        return {
             method: 'GET',
+            url: `https://api.themoviedb.org/3/movie/${movieId}`,
+            params: {
+                language: 'en-US', 
+            },
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_READ_KEY}`
-            }
-    }
+                }
+        }
+    },[movieId]) 
 
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,options);
+    const response = await axios.request(options);
 
-    return response.json();
+    return response.data;
 
 }
