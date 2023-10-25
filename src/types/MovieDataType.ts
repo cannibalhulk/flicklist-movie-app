@@ -1,50 +1,16 @@
-type Image = {
-    id: string;
-    width: number;
-    height: number;
-    url: string;
-    caption: CaptionType;
-    __typename: string;
-};
-
-type CaptionType = {
-    plainText: string,
-    __typename: string
+export interface MovieDataType {
+    adult : boolean
+    backdrop_path:string
+    genre_ids:  number[]
+    id:number
+    original_language:string
+    original_title:string
+    overview:string
+    popularity:number
+    poster_path:string
+    release_date:string
+    title:string
+    video:boolean
+    vote_average:number
+    vote_count:number
 }
-
-type TitleType = {
-    text: string;
-    id: string;
-    isSeries: boolean;
-    isEpisode: boolean;
-    __typename: string;
-};
-
-type TitleText = {
-    text: string;
-    __typename: string;
-};
-
-type YearRange = {
-    year: number;
-    endYear: null | number;
-    __typename: string;
-};
-
-type ReleaseDate = {
-    day: number;
-    month: number;
-    year: number;
-    __typename: string;
-};
-
-export type MovieDataType = {
-    _id: string;
-    id: string;
-    primaryImage: Image;
-    titleType: TitleType;
-    titleText: TitleText;
-    originalTitleText: TitleText;
-    releaseYear: YearRange;
-    releaseDate: ReleaseDate;
-};
