@@ -1,6 +1,6 @@
 TODO:
 
-- Implement Api params using select component
+- Implement Api params using select component ✅
 - Custom hook for Api
-- Movie Detail Page
+- Movie Detail Page 🔨
 - Sort movies (any sorting algorithm)
