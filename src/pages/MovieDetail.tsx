@@ -7,6 +7,7 @@ import axios from "axios";
 
 export default function MovieDetail() {
   const [movieDetail, setMovieDetail] = useState<MovieDetailsResponseType | null>(null);
+  const [isLoading, setLoading] = useState<boolean | null>(null)
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -34,12 +35,13 @@ export default function MovieDetail() {
 
   useEffect(() => {
     async function fetchMovieData() {
+      setLoading(true)
       const response = await axios.request(options);
       if (response.status !== 200) {
         throw Error("Could not find that movie");
       }
-      console.log(response.data);
       setMovieDetail(response.data);
+      setLoading(false)
     }
 
     fetchMovieData();
@@ -54,10 +56,11 @@ export default function MovieDetail() {
             onClick={(e)=>handleClick(e)}
             className="bg-blue-300"
         >
-            <AiOutlineArrowLeft className="text-blue-600" />
+            <AiOutlineArrowLeft className="text-black" />
         </Button>
       <section className="container min-w-full p-10 rounded-2xl bg-[#313131]">
-        <div className="flex ">
+        {isLoading ? (<p>Loading...</p>) : (
+          <div className="flex ">
             <div className="flex flex-col items-center space-y-5 mr-10">
                 <Image
                     src={"https://image.tmdb.org/t/p/original" + movieDetail?.poster_path}
@@ -67,7 +70,7 @@ export default function MovieDetail() {
                 />
                 <Tooltip  className="bg-blue-300 text-black  min-w-1/4" content={movieDetail?.vote_count}>
                     <Button className="text-white w-2/4" variant="bordered">
-                        Vote Count
+                        FlickList Vote Count
                     </Button>
                 </Tooltip>
             </div>
@@ -78,6 +81,8 @@ export default function MovieDetail() {
             </div>
             
         </div>
+        )}
+        
       </section>
     </div>
   );
