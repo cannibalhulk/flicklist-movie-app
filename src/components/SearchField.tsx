@@ -134,7 +134,7 @@ export default function SearchField() {
           
       </div>
 
-      <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-md p-10 mt-10">
+      <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-tl-[45px] rounded-tr-[45px] p-10 mt-10">
         <MovieApiData.Provider value={data}>
           <FilmList />
         </MovieApiData.Provider>
