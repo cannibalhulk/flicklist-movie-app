@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo, } from "react";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { BiSearch } from "react-icons/bi";
 import {years} from '../data/searchSelectionData'
-import useData from "../hooks/useData";
-import { ApiSearchTitleType } from "../types/ApiSearchTitleType";
+// import useData from "../hooks/useData";
+// import { ApiSearchTitleType } from "../types/ApiSearchTitleType";
 import axios from "axios";
 import FilmList from "./FilmList";
 import { MovieApiData } from "../contexts/MovieApiData";
@@ -20,7 +20,7 @@ export default function SearchField() {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/search/movie',
       params: {
-        query: `${title}`, 
+        query: `${title.length === 0 ? 'avengers': title}`, 
         year: selectedYear || null,
         include_adult: 'false', 
         language: 'en-US', 
@@ -61,12 +61,11 @@ export default function SearchField() {
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setClicked(true)
-    console.log(data);
+
   }
 
   function handleSelectChange(e:React.ChangeEvent<HTMLSelectElement>) {
     setSelectedYear(e.target.value);
-    console.log(e.target.value)
   }
   return (
     <>
@@ -100,6 +99,16 @@ export default function SearchField() {
             classNames={{
               popover:[
                 "bg-[#555]"
+              ],
+              innerWrapper: [
+                'bg-[#d4d4d8]',
+                'text-black'
+              ],
+              trigger: [
+                'bg-[#d4d4d8]'
+              ],
+              selectorIcon:[
+                'text-black'
               ]
             }}
             className="px-4 w-[200px] text-[#fff] placeholder-[30px] font-semibold text-[34px]"

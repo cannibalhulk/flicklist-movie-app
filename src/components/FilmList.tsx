@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { MovieApiData } from "../contexts/MovieApiData";
 import {Image} from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 export default function FilmList() {
     const movie_data = useContext(MovieApiData)
@@ -10,15 +11,18 @@ export default function FilmList() {
 
           if(item?.poster_path !== null)
           return(
-          
+          <Link 
+            key={item?.id} 
+            to={item?.id.toString()}>
             <Image
-              key={item?.id}
+              
               src={"https://image.tmdb.org/t/p/original"+item?.poster_path}
               width={400}
               isZoomed={true}
               loading="lazy"
               alt={item?.overview}
-            />
+              />
+          </Link>
         )})
       }
     </div>;
