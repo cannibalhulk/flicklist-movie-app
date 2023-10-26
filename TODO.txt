@@ -2,6 +2,5 @@ TODO:
 
 - Implement Api params using select component ✅
 - Custom hook for Api
-- Movie Detail Page 🔨
-   - implement useLoader function !!
+- Movie Detail Page 🔨 %95
 - Sort movies (any sorting algorithm)

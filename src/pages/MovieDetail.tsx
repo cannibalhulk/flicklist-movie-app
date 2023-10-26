@@ -1,12 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { MovieDetailsResponseType } from "../types/MovieDetailsResponseType";
-import { Image } from "@nextui-org/react";
+import { Image, Button, Tooltip } from "@nextui-org/react";
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 import axios from "axios";
 
 export default function MovieDetail() {
   const [movieDetail, setMovieDetail] = useState<MovieDetailsResponseType | null>(null);
   const { id } = useParams();
+  const navigate = useNavigate();
+
+
+  // button click function
+
+  function handleClick(e:React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    navigate('/movie')
+  }
 
   const options = useMemo(() => {
     return {
@@ -36,16 +46,37 @@ export default function MovieDetail() {
   }, [options]);
 
   return (
-    <div className="p-20 flex min-h-screen bg-[#3f3f3f] flex-col items-center  text-xl">
-      <section className="container">
-        <div className="grid grid-rows-2 place-items-start items-baseline">
-            <Image
-                src={"https://image.tmdb.org/t/p/original" + movieDetail?.poster_path}
-                width={300}
-                loading="lazy"
-                alt={movieDetail?.tagline}
-            />
-            <h1 className="">{movieDetail?.title}</h1>
+    <div className="p-20 flex min-h-screen bg-[#3f3f3f] flex-col space-y-6">
+        <Button
+            radius="full"
+            variant="flat"
+            isIconOnly
+            onClick={(e)=>handleClick(e)}
+            className="bg-blue-300"
+        >
+            <AiOutlineArrowLeft className="text-blue-600" />
+        </Button>
+      <section className="container min-w-full p-10 rounded-2xl bg-[#313131]">
+        <div className="flex ">
+            <div className="flex flex-col items-center space-y-5 mr-10">
+                <Image
+                    src={"https://image.tmdb.org/t/p/original" + movieDetail?.poster_path}
+                    width={300}
+                    loading="lazy"
+                    alt={movieDetail?.tagline}
+                />
+                <Tooltip  className="bg-blue-300 text-black  min-w-1/4" content={movieDetail?.vote_count}>
+                    <Button className="text-white w-2/4" variant="bordered">
+                        Vote Count
+                    </Button>
+                </Tooltip>
+            </div>
+            <div className="flex flex-col space-y-4">
+                <h1 className="font-lexendMd text-[28px] ">{movieDetail?.title}</h1>
+                <p className="font-lexend text-[15px] text-[#999] w-[400px]">{movieDetail?.overview}</p>
+
+            </div>
+            
         </div>
       </section>
     </div>
