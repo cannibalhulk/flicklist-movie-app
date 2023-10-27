@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MovieDetailsResponseType } from "../types/MovieDetailsResponseType";
-import { Image, Button, Tooltip } from "@nextui-org/react";
+import { Image, Button, Tooltip, Chip } from "@nextui-org/react";
 import {AiOutlineArrowLeft} from 'react-icons/ai'
+import SkeletonUi from "../components/SkeletonUi";
 import axios from "axios";
-
 export default function MovieDetail() {
   const [movieDetail, setMovieDetail] = useState<MovieDetailsResponseType | null>(null);
   const [isLoading, setLoading] = useState<boolean | null>(null)
@@ -59,7 +59,7 @@ export default function MovieDetail() {
             <AiOutlineArrowLeft className="text-black" />
         </Button>
       <section className="container min-w-full p-10 rounded-2xl bg-[#313131]">
-        {isLoading ? (<p>Loading...</p>) : (
+        {isLoading ? (<SkeletonUi />) : (
           <div className="flex ">
             <div className="flex flex-col items-center space-y-5 mr-10">
                 <Image
@@ -74,10 +74,25 @@ export default function MovieDetail() {
                     </Button>
                 </Tooltip>
             </div>
-            <div className="flex flex-col space-y-4">
-                <h1 className="font-lexendMd text-[28px] ">{movieDetail?.title}</h1>
-                <p className="font-lexend text-[15px] text-[#999] w-[400px]">{movieDetail?.overview}</p>
-
+            <div className=" flex flex-col justify-between space-y-4">
+              <div className="flex flex-col space-y-7">
+                <h1 className="font-lexendMd text-[28px] mb-4 ">{movieDetail?.title}</h1>
+                
+                <p className="font-lexend text-[15px] text-[#999] w-[400px] min-h-[40px]">
+                  {movieDetail?.overview}
+                </p>
+                <div className="flex">
+                  {movieDetail?.genres.map(genre=>(
+                      <Chip
+                      variant="faded"
+                      className="mr-5 text-white bg-transparent border-white shadow-blue-500" 
+                      >{genre?.name}</Chip>
+                  ))}
+                                
+                </div>
+                
+              </div>
+              
             </div>
             
         </div>
