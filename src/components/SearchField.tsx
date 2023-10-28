@@ -75,7 +75,7 @@ export default function SearchField() {
           value={title}
           onChange={(e) => handleChange(e)}
           isClearable
-          className="px-4 w-[400px] text-[#111] placeholder-[30px] font-semibold text-[34px]"
+          className="px-4 w-[320px]  md:w-[400px] text-[#111] placeholder-[30px] font-semibold text-[34px]"
           label="Search a movie by title"
           onClear={() => {
             setTitle("");
