@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { MovieApiData } from "../contexts/MovieApiData";
-import { Image, Chip, Card, CardFooter, CardHeader } from "@nextui-org/react";
+import { Image, Chip, Card, CardHeader } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 

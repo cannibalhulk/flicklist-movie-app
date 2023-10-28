@@ -1,4 +1,3 @@
-import React from 'react'
 import { Skeleton } from '@nextui-org/react'
 
 function SkeletonUi() {
