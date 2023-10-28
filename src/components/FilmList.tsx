@@ -14,11 +14,11 @@ export default function FilmList() {
   const movie_data = useContext(MovieApiData);
 
   return (
-    <div className="grid grid-cols-1 space-y-3 md:grid-cols-3 grid-rows-3 md:grid-rows-2 first-of-type:grid-flow-row-dense gap-4 h-5/6 w-4/5 mx-auto">
+    <div className="grid place-items-center grid-cols-1 space-y-3 sm:grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2  gap-4 h-5/6 w-4/5 mx-auto">
       {movie_data.map((item) => {
         if (item?.poster_path !== null)
           return (
-            <Card className="w-[400px] h-max  hover:cursor-pointer">
+            <Card className="w-[300px] sm:w-[300px] md:w-[400px] h-max  hover:cursor-pointer">
               <CardHeader className="absolute z-10 top-4 flex-col !items-start">
                 <Chip
                   startContent={<FaStar />}
