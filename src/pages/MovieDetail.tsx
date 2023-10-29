@@ -79,7 +79,7 @@ export default function MovieDetail() {
                 </Tooltip>
             </div>
             <div className=" flex flex-col justify-between">
-              <div className="flex flex-col space-y-7 items-center ">
+              <div className="flex flex-col space-y-7 items-center md:items-start ">
                 <h1 className="font-lexendMd text-[28px]  ">{movieDetail?.title}</h1>
 
                 {movieDetail?.overview && (
