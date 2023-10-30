@@ -18,7 +18,9 @@ export default function FilmList() {
       {movie_data.map((item) => {
         if (item?.poster_path !== null)
           return (
-            <Card className="shadow-black/50 shadow-2xl w-[300px] sm:w-[300px] md:w-[400px] h-max  hover:cursor-pointer">
+            <Card
+            key={item?.id} 
+            className="shadow-black/50 shadow-2xl w-[300px] sm:w-[300px] md:w-[400px] h-max  hover:cursor-pointer">
               <CardHeader className="absolute z-10 top-4 flex-col !items-start">
                 <Chip
                   startContent={<FaStar />}

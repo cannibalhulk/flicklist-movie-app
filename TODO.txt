@@ -2,5 +2,6 @@ TODO:
 
 - Custom hook for Api
 - Movie Detail Page 🔨 %95
-- Movie Detail Skeleton Loader 🏗️
-- Sort movies (any sorting algorithm)
+- Movie Detail Skeleton Loader ✅
+- Sort movies (any sorting algorithm) 🔨 %70
+- Pagination of FilmList component  

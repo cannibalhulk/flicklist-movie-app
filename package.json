@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-haiku": "^2.0.3",
     "react-icons": "^4.11.0",
-    "react-router-dom": "^6.17.0"
+    "react-router-dom": "^6.17.0",
+    "use-debounce": "^9.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
