@@ -15,7 +15,7 @@ export default function FilmList() {
 
   return (
     <div className="grid place-items-center grid-cols-1 space-y-3 sm:grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2  gap-4 h-5/6 w-4/5 mx-auto">
-      {movie_data.map((item) => {
+      {movie_data?.results.map((item) => {
         if (item?.poster_path !== null)
           return (
             <Card

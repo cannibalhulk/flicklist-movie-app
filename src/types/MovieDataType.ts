@@ -1,4 +1,4 @@
-export interface MovieDataType {
+export interface ResultType {
     adult : boolean
     backdrop_path:string
     genre_ids:  number[]
@@ -13,4 +13,11 @@ export interface MovieDataType {
     video:boolean
     vote_average:number
     vote_count:number
+}
+
+export interface MovieDataType {
+    page: number
+    results: ResultType[],
+    total_pages:number,
+    total_results: number
 }

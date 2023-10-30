@@ -14,7 +14,7 @@ import { MovieDataType } from "../types/MovieDataType";
 export default function SearchField() {
   const [title, setTitle] = useState("");
   const [clicked, setClicked] = useState(false);
-  const [data, setData] = useState<MovieDataType[]>([]);
+  const [data, setData] = useState<MovieDataType | null>(null);
   const [selectedYear, setSelectedYear] = useState("");
   const [filter, setFilter] = useState<"title" | "vote_average">("title");
   let typeFilter: "inc" | "dec" = "inc";
@@ -40,11 +40,12 @@ export default function SearchField() {
   useEffect(() => {
     const loadMovies = async () => {
       const response = await axios.request(options);
-      const filtered_result: MovieDataType[] = selection_sort(
+      const filtered_result: MovieDataType = selection_sort(
         filter,
-        response.data.results,
+        response.data,
         typeFilter
       );
+      console.log(response.data)
       setData(filtered_result);
     };
 
