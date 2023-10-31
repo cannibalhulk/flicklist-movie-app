@@ -1,5 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { Input, Button, Select, SelectItem } from "@nextui-org/react";
+import {
+  Input,
+  Button,
+  Select,
+  SelectItem,
+  Pagination,
+} from "@nextui-org/react";
 import { BiSearch } from "react-icons/bi";
 import { years } from "../data/searchSelectionData";
 import { filters } from "../data/filterSelectionData";
@@ -13,6 +19,8 @@ import { MovieDataType } from "../types/MovieDataType";
 
 export default function SearchField() {
   const [title, setTitle] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const [clicked, setClicked] = useState(false);
   const [data, setData] = useState<MovieDataType | null>(null);
   const [selectedYear, setSelectedYear] = useState("");
@@ -28,14 +36,14 @@ export default function SearchField() {
         year: selectedYear || null,
         include_adult: "false",
         language: "en-US",
-        page: "1",
+        page: page,
       },
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_READ_KEY}`,
       },
     };
-  }, [title, selectedYear]);
+  }, [title, selectedYear, page]);
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -45,8 +53,8 @@ export default function SearchField() {
         response.data,
         typeFilter
       );
-      console.log(response.data)
       setData(filtered_result);
+      setTotalPage(filtered_result.total_pages);
     };
 
     loadMovies();
@@ -79,22 +87,22 @@ export default function SearchField() {
   // type ArrType = ["title" | "vote_average", "inc" | "dec"];
 
   function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    if(e.target.value === ("Increasing Vote Average" || "[A-Z]")) {
+    if (e.target.value === ("Increasing Vote Average" || "[A-Z]")) {
       typeFilter = "inc";
-      if(e.target.value === "Increasing Vote Average"){
-        setFilter("vote_average")
-      }else{
-        setFilter("title")
+      if (e.target.value === "Increasing Vote Average") {
+        setFilter("vote_average");
+      } else {
+        setFilter("title");
       }
-    } else{
+    } else {
       typeFilter = "dec";
-      if(e.target.value === "Decreasing Vote Average"){
-        setFilter("vote_average")
-      } else{
-        setFilter('title')
+      if (e.target.value === "Decreasing Vote Average") {
+        setFilter("vote_average");
+      } else {
+        setFilter("title");
       }
     }
-    console.log(e.target.value)
+    console.log(e.target.value);
   }
   return (
     <>
@@ -158,9 +166,8 @@ export default function SearchField() {
           className="px-4 w-[200px] text-[#fff] placeholder-[30px] font-semibold text-[34px]"
           onChange={(e) => handleFilterChange(e)}
         >
-          {filters.map((filter) =>{
-
-            return(
+          {filters.map((filter) => {
+            return (
               <SelectItem
                 classNames={{
                   wrapper: ["bg-slate-500"],
@@ -171,14 +178,50 @@ export default function SearchField() {
               >
                 {filter.label}
               </SelectItem>
-            ) 
-          } )}
+            );
+          })}
         </Select>
       </div>
 
       <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-tl-[45px] rounded-tr-[45px] pt-10 mt-10 pb-10">
         <MovieApiData.Provider value={data}>
+          <div className="flex mb-20 justify-center">
+            <Pagination
+              classNames={{
+                wrapper:
+                  "gap-0 overflow-visible h-8 rounded border border-divider",
+                item: "w-8 h-8 text-small rounded-none bg-gray-500 hover:bg-default-700",
+                cursor:
+                  " bg-gradient-to-b shadow-lg from-default-500 to-default-800 dark:from-default-300 dark:to-default-100 text-white font-bold",
+                next: "bg-gray-400",
+                prev: "bg-gray-400",
+              }}
+              isCompact
+              showControls
+              initialPage={page}
+              total={totalPage}
+              onChange={setPage}
+            />
+          </div>
           <FilmList />
+          <div className="flex pt-20 justify-center">
+            <Pagination
+              classNames={{
+                wrapper:
+                  "gap-0 overflow-visible h-8 rounded border border-divider",
+                item: "w-8 h-8 text-small rounded-none bg-gray-500 hover:bg-default-700",
+                cursor:
+                  " bg-gradient-to-b shadow-lg from-default-500 to-default-800 dark:from-default-300 dark:to-default-100 text-white font-bold",
+                next: "bg-gray-400",
+                prev: "bg-gray-400",
+              }}
+              isCompact
+              showControls
+              initialPage={page}
+              total={totalPage}
+              onChange={setPage}
+            />
+          </div>
         </MovieApiData.Provider>
       </div>
     </>
