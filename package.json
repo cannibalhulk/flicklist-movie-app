@@ -21,6 +21,7 @@
     "react-haiku": "^2.0.3",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.17.0",
+    "recoil": "^0.7.7",
     "use-debounce": "^9.0.4"
   },
   "devDependencies": {
