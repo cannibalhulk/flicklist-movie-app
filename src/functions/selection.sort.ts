@@ -1,6 +1,6 @@
-import { MovieDataType } from "../types/MovieDataType";
+import { MovieData } from "../types/MovieDataType";
 
-export default function selection_sort(filter: "title" | "vote_average", data: MovieDataType, _type: "inc" | "dec") {
+export default function selection_sort(filter: "title" | "vote_average", data: MovieData, _type: "inc" | "dec") {
     for(let i = 0; i  < data.results.length-1; i++) {
         let min = i;
         if(_type === "inc") {

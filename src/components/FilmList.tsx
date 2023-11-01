@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { MovieApiData } from "../contexts/MovieApiData";
-import { Image, Chip, Card, CardHeader } from "@nextui-org/react";
+import { Image, Chip, Card, CardHeader, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
-import { favoritesState } from "../recoil/atoms.recoil";
-import { useRecoilState } from "recoil";
+import { favoritesState, toggleFavoriteSelector } from "../recoil/atoms.recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 export default function FilmList() {
-  const [favorites, setFavorites] = useRecoilState(favoritesState);
-  const [active, setActive] = useState(false);
+  const [ favoritesMap,setFavorites] = useRecoilState(favoritesState);
+  const toggleFavorite = useRecoilValue(toggleFavoriteSelector);
   const navigate = useNavigate();
 
   function handleClick(id: number) {
@@ -17,20 +17,24 @@ export default function FilmList() {
   }
 
   function handleFavoriteClick(id: number) {
-    setActive(true);
-    if (favorites.includes(id)) {
-      setFavorites((prevFavs) => prevFavs.filter((item) => item !== id));
-      } else {
-        setFavorites([...favorites, id]);
-      }
-    }
-  
+    const updatedFavorites = toggleFavorite(id);
+    setFavorites(updatedFavorites); // Update the favorites state
+
+    // You can access the favorite state of a specific movie using favoritesMap
+    const isFavorite = updatedFavorites[id];
+    console.log(`Movie ${id} is now a favorite: ${isFavorite}`);
+  }
+
+  useEffect(() => {
+    console.log(favoritesMap); // Log the updated favorites whenever it changes
+  }, [favoritesMap]);
 
   const movie_data = useContext(MovieApiData);
 
   return (
     <div className="grid place-items-center grid-cols-1 space-y-3 sm:grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-2  gap-4 h-5/6 w-4/5 mx-auto">
-      {movie_data?.results.map((item) => {
+      {movie_data?.data.results.map((item) => {
+        const isFavorite = favoritesMap[item.id] || false;
         if (item?.poster_path !== null)
           return (
             <Card
@@ -39,24 +43,25 @@ export default function FilmList() {
             >
               <CardHeader className="flex flex-row justify-between absolute z-10 top-4 !items-start">
                 <Chip
-                  startContent={<FaStar className="text-black"  size={20} />}
-                  className="bg-blue-300 drop-shadow-sm shadow-blue-400"
+                  startContent={<FaStar className="text-[#DCDBD8]" size={26} />}
+                  className="bg-[#1B487A] text-[#DCDBD8] text-[18px] py-5 drop-shadow-sm shadow-[#1B487A]"
                   variant="shadow"
                 >
                   {item?.vote_average.toFixed(1)}
                 </Chip>
-                <Chip
+                <Button
+                  isIconOnly
+                  radius="full"
                   onClick={() => handleFavoriteClick(item?.id)}
-                  className="bg-blue-300 drop-shadow-sm shadow-blue-400"
+                  className="bg-[#1B487A] text-[#DCDBD8] drop-shadow-sm shadow-[#1B487A]"
                   variant="shadow"
-                  classNames={{
-                    base: "flex justify-center items-center",
-                    content: "flex justify-center items-center",
-                  }}
-                  startContent={active ? <MdFavorite className="text-red-600" size={20} /> : <MdFavoriteBorder size={20}/>}
                 >
-                  {active ? "Remove fav": "Add to favs"}
-                </Chip>
+                  {isFavorite ? (
+                    <MdFavorite className="text-red-600" size={26} />
+                  ) : (
+                    <MdFavoriteBorder size={26} />
+                  )}
+                </Button>
               </CardHeader>
               <Image
                 removeWrapper

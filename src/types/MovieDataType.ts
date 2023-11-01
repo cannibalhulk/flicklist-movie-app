@@ -1,4 +1,6 @@
-export interface ResultType {
+import { FavoritesStateType } from "../recoil/atoms.recoil"
+
+interface ResultType {
     adult : boolean
     backdrop_path:string
     genre_ids:  number[]
@@ -15,9 +17,15 @@ export interface ResultType {
     vote_count:number
 }
 
-export interface MovieDataType {
+
+export interface MovieData {
     page: number
     results: ResultType[],
     total_pages:number,
     total_results: number
+}
+
+export interface MovieDataType {
+    data: MovieData,
+    favorites:FavoritesStateType[]
 }
