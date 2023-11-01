@@ -15,9 +15,12 @@ import selection_sort from "../functions/selection.sort";
 import axios from "axios";
 import FilmList from "./FilmList";
 import { MovieApiData } from "../contexts/MovieApiData";
-import { MovieDataType } from "../types/MovieDataType";
+import { MovieDataType, MovieData } from "../types/MovieDataType";
+import { favoritesState } from "../recoil/atoms.recoil";
+import {useRecoilValue} from 'recoil'
 
 export default function SearchField() {
+  const favs = useRecoilValue(favoritesState)
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -48,17 +51,21 @@ export default function SearchField() {
   useEffect(() => {
     const loadMovies = async () => {
       const response = await axios.request(options);
-      const filtered_result: MovieDataType = selection_sort(
+      const filtered_result: MovieData = selection_sort(
         filter,
         response.data,
         typeFilter
       );
-      setData(filtered_result);
+      const setDataObj = {
+        data: filtered_result,
+        favorites: favs
+      }
+      setData(setDataObj);
       setTotalPage(filtered_result.total_pages);
     };
 
     loadMovies();
-  }, [clicked, filter, options, typeFilter]);
+  }, [ clicked, filter, options, typeFilter,favs]);
 
   //FIXME:
   // const my_movie_prop_obj: ApiSearchTitleType = {
