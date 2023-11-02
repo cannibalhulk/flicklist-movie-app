@@ -5,20 +5,25 @@ export type FavoritesStateType = {
     isFavorite: boolean; // "add to fav" button active state
   };
 
-export const favoritesState = atom({
+export const favoritesState = atom<FavoritesStateType[]>({
     key: "favoritesState",
-    default:{}
+    default:[]
 })
 
 
 
 export const toggleFavoriteSelector = selector({
   key: 'toggleFavoriteSelector',
-  get: ({ get }) => (movieId: number) => {
-    const currentFavorites = { ...get(favoritesState) };
-    
-    // Toggle the favorite state for the movie ID
-    currentFavorites[movieId] = !currentFavorites[movieId];
+  get: ({ get })=> (movieId:number) => {
+    const currentFavorites = [...get(favoritesState)];
+
+    const index = currentFavorites.findIndex((fav) => fav.id === movieId);
+
+    if (index !== -1) {
+      currentFavorites[index].isFavorite = !currentFavorites[index].isFavorite;
+    } else {
+      currentFavorites.push({ id: movieId, isFavorite: true });
+    }
 
     return currentFavorites;
   },
