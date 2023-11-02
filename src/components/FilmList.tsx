@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { favoritesState, toggleFavoriteSelector } from "../recoil/atoms.recoil";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue} from "recoil";
 
 export default function FilmList() {
   const [favoritesMap, setFavorites] = useRecoilState(favoritesState);
