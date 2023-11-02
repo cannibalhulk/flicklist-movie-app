@@ -143,7 +143,7 @@ export default function MovieDetail() {
               </div>
             </div>
             
-            <div className="mx-10 rounded-xl bg-zinc-900 h-[600px] w-1/2">
+            <div className="mx-10 rounded-xl bg-zinc-900 h-[600px] md:w-[570px] sm:w-[340px] w-full">
                 <Reviews/>
             </div>
           </section>

@@ -46,7 +46,7 @@ const Reviews = () => {
             reviews?.results.length === 0 ? (
                 <div>There is nothing to show :/</div>
             ) : (
-                <ScrollShadow className="p-3 h-full flex flex-col space-y-5 overflow-x-auto overflow-y-scroll">
+                <ScrollShadow hideScrollBar className="p-3 h-full flex flex-col space-y-5 overflow-x-auto overflow-y-scroll">
                 {reviews?.results.map(rev=>(
                         <ReviewDetails {...rev}/>
                 ))}
