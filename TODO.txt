@@ -2,8 +2,9 @@ TODO:
 
 - Custom hook for Api
 - Favorite Movies Page 🔨
-- Movie Detail Page 🔨 %95 (add User Reviews)
+- Movie Detail Page 🔨 %95 complete (add User Reviews)
 - Movie Detail Skeleton Loader ✅
-- Sort movies (any sorting algorithm) 🔨 %70
+- Sort movies (any sorting algorithm) 🔨 %70 complete
 - Pagination of FilmList component  ✅
+- Adding to favorite list 🟨 🔨 %55 complete
 - implement useSearchParams hook 
