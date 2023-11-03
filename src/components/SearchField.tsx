@@ -5,6 +5,7 @@ import {
   Select,
   SelectItem,
   Pagination,
+  Link
 } from "@nextui-org/react";
 import { BiSearch } from "react-icons/bi";
 import { years } from "../data/searchSelectionData";
@@ -16,11 +17,11 @@ import axios from "axios";
 import FilmList from "./FilmList";
 import { MovieApiData } from "../contexts/MovieApiData";
 import { MovieDataType, MovieData } from "../types/MovieDataType";
-import { favoritesState } from "../recoil/atoms.recoil";
+import { favoriteMoviesState } from "../recoil/atoms.recoil";
 import {useRecoilValue} from 'recoil'
 
 export default function SearchField() {
-  const favs = useRecoilValue(favoritesState)
+  const favs = useRecoilValue(favoriteMoviesState)
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -190,6 +191,8 @@ export default function SearchField() {
         </Select>
       </div>
 
+      <Link href="/favorites" showAnchorIcon target="blank" className="absolute top-20 right-32   text-2xl font-bold text-white">Favorites</Link>
+
       <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-tl-[45px] rounded-tr-[45px] pt-10 mt-10 pb-10">
         <MovieApiData.Provider value={data}>
           <div className="flex mb-20 justify-center">
@@ -230,6 +233,9 @@ export default function SearchField() {
             />
           </div>
         </MovieApiData.Provider>
+      </div>
+      <div className="min-h-[50px] w-full bg-zinc-600 flex justify-center items-center">
+        <p>Built by <span><Link href="https://www.shukurdev.pro" color="warning" size="md" className="font-lexendMd underline-offset-2 underline decoration-none">Shukurdev.pro</Link></span></p>
       </div>
     </>
   );

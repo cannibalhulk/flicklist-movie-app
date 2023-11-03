@@ -1,6 +1,6 @@
 import { FavoritesStateType } from "../recoil/atoms.recoil"
 
-interface ResultType {
+export interface ResultType {
     adult : boolean
     backdrop_path:string
     genre_ids:  number[]
