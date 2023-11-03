@@ -65,8 +65,8 @@ export default function MovieDetail() {
         {isLoading ? (
           <SkeletonUi />
         ) : (
-          <section className="flex flex-col  md:flex-row">
-            <div className="flex flex-col  md:flex-row">
+          <section className="items-start min-[780px]:flex min-[780px]:flex-col md:min-[780px]:w-full md:max-[1300px]:w-2/4 min-[1300px]:grid min-[1000px]:grid-cols-2 gap-8  place-items-stretch  md:max-[1300px]:place-items-center px-6">
+            <div className="grid-cols-1 place-items-start mb-11 md:mb-0  md:grid md:grid-cols-2 gap-2  md:flex-row">
               <div className="flex flex-col items-center space-y-5 mb-4 md:mb-0  mr-10">
                 <Image
                   src={
@@ -81,7 +81,7 @@ export default function MovieDetail() {
                   className="bg-blue-300 text-black  min-w-1/4"
                   content={movieDetail?.vote_count}
                 >
-                  <Button className="text-white text-[13px] md:text-[16px]  w-2/4" variant="bordered">
+                  <Button className="text-white text-[13px] md:w-full md:text-[16px]  w-2/4" variant="bordered">
                     FlickList Vote Count
                   </Button>
                 </Tooltip>
@@ -143,7 +143,7 @@ export default function MovieDetail() {
               </div>
             </div>
             
-            <div className="mx-10 rounded-xl bg-zinc-900 h-[600px] md:w-[570px] sm:w-[340px] w-full">
+            <div className="  rounded-xl bg-zinc-900 h-[600px] w-full">
                 <Reviews/>
             </div>
           </section>
