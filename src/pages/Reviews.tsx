@@ -44,7 +44,9 @@ const Reviews = () => {
             <SkeletonReview/>
         ) : (
             reviews?.results.length === 0 ? (
-                <div>There is nothing to show :/</div>
+                <div className="flex h-full justify-center items-center">
+                  <h1 className="text-lg font-medium text-center">There is nothing to show here <br/> <span className="text-3xl text-red-400 ">: (</span></h1>
+                </div>
             ) : (
                 <ScrollShadow hideScrollBar className="p-3 h-full flex flex-col space-y-5 overflow-x-auto overflow-y-scroll">
                 {reviews?.results.map(rev=>(
