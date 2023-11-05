@@ -8,7 +8,7 @@ export type FavoritesStateType = {
 
 const initialFavoriteMovies = getFromLocalStorage('favoriteMovies') || [];
 
-export const favoriteMoviesState = atom<FavoritesStateType[]>({
+export const favoriteMoviesState = atom({
   key: "favoriteMoviesState",
   default: initialFavoriteMovies,
 });
@@ -20,7 +20,7 @@ export const favoriteMoviesSelector = selector({
     return favoriteMovies;
   },
   set: ({ get, set }, movie) => {
-    const favoriteMovies = get(favoriteMoviesState);
+    const favoriteMovies: FavoritesStateType[] = get(favoriteMoviesState);
     const movieIndex = favoriteMovies.findIndex((m) => m.id === movie.id);
 
     if (movieIndex === -1) {
