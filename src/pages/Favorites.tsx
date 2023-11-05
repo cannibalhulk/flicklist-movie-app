@@ -2,7 +2,15 @@ import { useRecoilValue } from "recoil";
 import { favoriteMoviesSelector } from "../recoil/atoms.recoil";
 import { useEffect, useMemo, useState } from "react";
 import { ResultType } from "../types/MovieDataType";
-import { Card, CardBody, CardHeader, Image, Link } from "@nextui-org/react";
+import toast, { Toaster } from 'react-hot-toast';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Image,
+} from "@nextui-org/react";
+import { Users2, Calendar,Trash2 } from "lucide-react";
+import { deleteItemFromLocalStorage } from "../functions/deleteFromLocalStorage";
 
 function Favorites() {
   const favoriteMovies = useRecoilValue(favoriteMoviesSelector);
@@ -22,6 +30,20 @@ function Favorites() {
       },
     };
   }, []);
+
+  const notify = () => toast.success("Item deleted successfully!",{
+    icon:"🗑️",
+    style:{
+      borderRadius:"10px",
+      backgroundColor:"#333",
+      color:"#fff"
+    }
+  });
+
+  function onClickHandler(id:number){
+    notify()
+    deleteItemFromLocalStorage("favoriteMovies", id)
+  }
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -50,23 +72,41 @@ function Favorites() {
         <div className="rounded-full w-[10px]  h-[10px] bg-[#68e9a2]"></div>
       </h1>
       <section className="flex flex-col justify-center">
-        {movie_details.map((movie) => (
-          <Link href={`movie/${movie.id.toString()}`} key={movie.id}>
-            <Card  className="mb-10 p-1 w-[400px] flex flex-1 justify-items-center ">
-              <CardHeader className="">
+        {movie_details.length === 0 ? (
+          <div className="min-h-[50vh] flex justify-center items-center text-xl">You don't have any favorite movies</div>
+        ):
+        movie_details.map((movie) => (
+          <div key={movie.id} className="flex mb-10 space-x-2">
+            <Card  className=" p-1 w-[300px] md:w-[400px] flex flex-row">
+              <CardHeader className="w-auto p-0">
                 <Image
-                  width={200}
+                  width={100}
                   src={
                     "https://image.tmdb.org/t/p/original" + movie?.poster_path
                   }
+                  alt={movie.original_title}
                 />
               </CardHeader>
-              <CardBody className="flex flex-col">
-                <h1 className="text-2xl text-black">{movie.title}</h1>
+              <CardBody className="flex flex-col items-start space-y-2">
+                <h1 className="text-md text-black font-bold ">{movie.title}</h1>
+                <div className="flex items-center">
+                  <Users2 size={20} />:
+                  <p className="ml-2">{movie.vote_average.toFixed(1)}</p>
+                </div>
+                <div className="flex items-center">
+                  <Calendar size={20} />:
+                  <p className="ml-2">{movie.release_date}</p>
+                </div>
               </CardBody>
             </Card>
-          </Link>
+            <div onClick={()=>onClickHandler(movie.id)} className="min-h-full bg-white/25 hover:bg-danger-500 cursor-pointer transition ease-out duration-250 rounded-xl  p-3 w-auto flex flex-col justify-center">
+                <Trash2 />
+            </div>
+          </div>
         ))}
+        <Toaster
+          position="top-center"
+        />
       </section>
     </div>
   );

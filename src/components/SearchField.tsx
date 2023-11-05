@@ -191,7 +191,7 @@ export default function SearchField() {
         </Select>
       </div>
 
-      <Link href="/favorites" showAnchorIcon target="blank" className="absolute top-20 right-32   text-2xl font-bold text-white">Favorites</Link>
+      <Link href="/favorites" showAnchorIcon className="mt-10   text-2xl font-bold text-white">Go to Favorites</Link>
 
       <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-tl-[45px] rounded-tr-[45px] pt-10 mt-10 pb-10">
         <MovieApiData.Provider value={data}>
