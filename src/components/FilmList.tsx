@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import {
+  FavoritesStateType,
   favoriteMoviesSelector,
   favoriteMoviesState,
 } from "../recoil/atoms.recoil";
@@ -13,7 +14,7 @@ import { saveToLocalStorage } from "../functions/saveToLocalStorage";
 import { deleteItemFromLocalStorage } from "../functions/deleteFromLocalStorage";
 
 export default function FilmList() {
-  const favoriteMovies = useRecoilValue(favoriteMoviesSelector);
+  const favoriteMovies: FavoritesStateType[] = useRecoilValue(favoriteMoviesSelector);
   const setFavoriteMovies = useSetRecoilState(favoriteMoviesState);
 
   const navigate = useNavigate();
