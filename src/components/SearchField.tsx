@@ -5,7 +5,7 @@ import {
   Select,
   SelectItem,
   Pagination,
-  Link
+  Link,
 } from "@nextui-org/react";
 import { BiSearch } from "react-icons/bi";
 import { years } from "../data/searchSelectionData";
@@ -14,20 +14,22 @@ import selection_sort from "../functions/selection.sort";
 // import useData from "../hooks/useData";
 // import { ApiSearchTitleType } from "../types/ApiSearchTitleType";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import FilmList from "./FilmList";
 import { MovieApiData } from "../contexts/MovieApiData";
 import { MovieDataType, MovieData } from "../types/MovieDataType";
 import { favoriteMoviesState } from "../recoil/atoms.recoil";
-import {useRecoilValue} from 'recoil'
+import { useRecoilValue } from "recoil";
 
 export default function SearchField() {
-  const favs = useRecoilValue(favoriteMoviesState)
+  const favs = useRecoilValue(favoriteMoviesState);
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [clicked, setClicked] = useState(false);
   const [data, setData] = useState<MovieDataType | null>(null);
   const [selectedYear, setSelectedYear] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useState<"title" | "vote_average">("title");
   let typeFilter: "inc" | "dec" = "inc";
 
@@ -36,7 +38,7 @@ export default function SearchField() {
       method: "GET",
       url: "https://api.themoviedb.org/3/search/movie",
       params: {
-        query: `${title.length === 0 ? "avengers" : title}`,
+        query: `${title.length === 0 ? "a" : title}`,
         year: selectedYear || null,
         include_adult: "false",
         language: "en-US",
@@ -59,14 +61,19 @@ export default function SearchField() {
       );
       const setDataObj = {
         data: filtered_result,
-        favorites: favs
-      }
+        favorites: favs,
+      };
       setData(setDataObj);
       setTotalPage(filtered_result.total_pages);
     };
 
     loadMovies();
-  }, [ clicked, filter, options, typeFilter,favs]);
+    if (searchParams.get("title")) {
+      setTitle(searchParams.get("title") ?? "");
+    } else {
+      setTitle("");
+    }
+  }, [clicked, filter, options, typeFilter, favs, searchParams]);
 
   //FIXME:
   // const my_movie_prop_obj: ApiSearchTitleType = {
@@ -78,7 +85,26 @@ export default function SearchField() {
   // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    // handles <Input/> onChange
+
+    let search;
+    if (e.target.value) {
+      search = {
+        title: e.target.value,
+      };
+      setTitle(search.title);
+    } else {
+      setTitle("");
+      search = undefined;
+    }
+
+    setSearchParams(search);
+  };
+
+  const handleClear = () => {
+    // handles <Input/> onClear function
+    const search = undefined;
+    setSearchParams(search);
   };
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -87,6 +113,7 @@ export default function SearchField() {
   }
 
   function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    // handles <Select> onChange function
     setSelectedYear(e.target.value);
   }
 
@@ -95,6 +122,7 @@ export default function SearchField() {
   // type ArrType = ["title" | "vote_average", "inc" | "dec"];
 
   function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    // handles Filter change function
     if (e.target.value === ("Increasing Vote Average" || "[A-Z]")) {
       typeFilter = "inc";
       if (e.target.value === "Increasing Vote Average") {
@@ -110,7 +138,6 @@ export default function SearchField() {
         setFilter("title");
       }
     }
-    console.log(e.target.value);
   }
   return (
     <>
@@ -122,9 +149,7 @@ export default function SearchField() {
           isClearable
           className="px-4 w-[320px]  md:w-[400px] text-[#111] placeholder-[30px] font-semibold text-[34px]"
           label="Search a movie by title"
-          onClear={() => {
-            setTitle("");
-          }}
+          onClear={handleClear}
         />
         <Button
           onClick={(e) => handleClick(e)}
@@ -191,51 +216,78 @@ export default function SearchField() {
         </Select>
       </div>
 
-      <Link href="/favorites" showAnchorIcon className="mt-10   text-2xl font-bold text-white">Go to Favorites</Link>
+      <Link
+        href="/favorites"
+        showAnchorIcon
+        className="mt-10   text-2xl font-bold text-white"
+      >
+        Go to Favorites
+      </Link>
 
       <div className=" bg-gradient-to-bl from-[#4d4d4d] from-20% to-[#333533ce] md:min-h-screen lg:min-w-screen min-w-full rounded-tl-[45px] rounded-tr-[45px] pt-10 mt-10 pb-10">
-        <MovieApiData.Provider value={data}>
-          <div className="flex mb-20 justify-center">
-            <Pagination
-              classNames={{
-                wrapper:
-                  "gap-0 overflow-visible h-8 rounded border border-divider",
-                item: "w-8 h-8 text-small rounded-none bg-gray-500 hover:bg-default-700",
-                cursor:
-                  " bg-gradient-to-b shadow-lg from-default-500 to-default-800 dark:from-default-300 dark:to-default-100 text-white font-bold",
-                next: "bg-gray-400",
-                prev: "bg-gray-400",
-              }}
-              isCompact
-              showControls
-              initialPage={page}
-              total={totalPage}
-              onChange={setPage}
-            />
+        {data?.data.results.length === 0 ? ( // displaying default texts for 'no result'
+          <div className="min-h-screen p-30">
+          <p className="text-center font-bold mt-[100px] md:text-2xl text-red-500">
+            Sorry, we couldn't find any results for your query.
+            <br /> Please try again with different keywords.
+          </p>
           </div>
-          <FilmList />
-          <div className="flex pt-20 justify-center">
-            <Pagination
-              classNames={{
-                wrapper:
-                  "gap-0 overflow-visible h-8 rounded border border-divider",
-                item: "w-8 h-8 text-small rounded-none bg-gray-500 hover:bg-default-700",
-                cursor:
-                  " bg-gradient-to-b shadow-lg from-default-500 to-default-800 dark:from-default-300 dark:to-default-100 text-white font-bold",
-                next: "bg-gray-400",
-                prev: "bg-gray-400",
-              }}
-              isCompact
-              showControls
-              initialPage={page}
-              total={totalPage}
-              onChange={setPage}
-            />
-          </div>
-        </MovieApiData.Provider>
+        ) : (
+          <MovieApiData.Provider value={data}>
+            <div className="flex mb-20 justify-center">
+              <Pagination
+                classNames={{
+                  wrapper:
+                    "gap-0 overflow-visible h-8 rounded border border-divider",
+                  item: "w-8 h-8 text-small rounded-none bg-gray-500 hover:bg-default-700",
+                  cursor:
+                    " bg-gradient-to-b shadow-lg from-default-500 to-default-800 dark:from-default-300 dark:to-default-100 text-white font-bold",
+                  next: "bg-gray-400",
+                  prev: "bg-gray-400",
+                }}
+                isCompact
+                showControls
+                initialPage={page}
+                total={totalPage}
+                onChange={setPage}
+              />
+            </div>
+            <FilmList />
+            <div className="flex pt-20 justify-center">
+              <Pagination
+                classNames={{
+                  wrapper:
+                    "gap-0 overflow-visible h-8 rounded border border-divider",
+                  item: "w-8 h-8 text-small rounded-none bg-gray-500 hover:bg-default-700",
+                  cursor:
+                    " bg-gradient-to-b shadow-lg from-default-500 to-default-800 dark:from-default-300 dark:to-default-100 text-white font-bold",
+                  next: "bg-gray-400",
+                  prev: "bg-gray-400",
+                }}
+                isCompact
+                showControls
+                initialPage={page}
+                total={totalPage}
+                onChange={setPage}
+              />
+            </div>
+          </MovieApiData.Provider>
+        )}
       </div>
       <div className="min-h-[50px] w-full bg-zinc-600 flex justify-center items-center">
-        <p>Built by <span><Link href="https://www.shukurdev.pro" color="warning" size="md" className="font-lexendMd underline-offset-2 underline decoration-none">Shukurdev.pro</Link></span></p>
+        <p>
+          Built by{" "}
+          <span>
+            <Link
+              href="https://www.shukurdev.pro"
+              color="warning"
+              size="md"
+              className="font-lexendMd underline-offset-2 underline decoration-none"
+            >
+              Shukurdev.pro
+            </Link>
+          </span>
+        </p>
       </div>
     </>
   );
