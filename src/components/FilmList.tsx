@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { MovieApiData } from "../contexts/MovieApiData";
 import { Image, Chip, Card, CardHeader, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
@@ -34,19 +34,13 @@ export default function FilmList() {
       ];
       setFavoriteMovies(updatedFavorites);
       deleteItemFromLocalStorage('favoriteMovies', id);
-      console.log(`Movie ${id} is now removed from favorites.`);
     } else {
       // Movie is not in the favorite list, add it.
       const updatedFavorites = [...favoriteMovies, { id, isFavorite: true }];
       saveToLocalStorage('favoriteMovies', updatedFavorites);
       setFavoriteMovies(updatedFavorites);
-      console.log(`Movie ${id} is now a favorite.`);
     }
   }
-
-  useEffect(() => {
-    console.log(favoriteMovies); // Log the updated favorites whenever it changes
-  }, [favoriteMovies]);
 
   const movie_data = useContext(MovieApiData);
 

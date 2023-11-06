@@ -13,14 +13,14 @@ export default function MovieDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // button click function
-
+  
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    // button click function
     e.preventDefault();
     navigate("/movie");
   }
 
-  const options = useMemo(() => {
+  const options = useMemo(() => { // catching previous results according to movie_id
     return {
       method: "GET",
       url: `https://api.themoviedb.org/3/movie/${id}`,

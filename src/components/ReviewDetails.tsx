@@ -10,7 +10,7 @@ function ReviewDetails(params : MovieReviewResultType) {
             <p className="text-white/50 font-lexendMd">{params.created_at.slice(0,10)}</p>
         </div>
         <ScrollShadow hideScrollBar className="w-[600px] h-36 px-3 overflow-y-scroll">
-            <p>{params.content}</p>
+            <p>{params.content}</p> {/*displaying review content */}
         </ScrollShadow>
     </div>
   )

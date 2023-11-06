@@ -31,7 +31,7 @@ function Favorites() {
     };
   }, []);
 
-  const notify = () => toast.success("Item deleted successfully!",{
+  const notify = () => toast.success("Item deleted successfully!",{ // configuring react toastify notifications
     icon:"🗑️",
     style:{
       borderRadius:"10px",
