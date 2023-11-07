@@ -65,9 +65,9 @@ export default function MovieDetail() {
         {isLoading ? (
           <SkeletonUi />
         ) : (
-          <section className="items-start min-[780px]:flex min-[780px]:flex-col md:min-[780px]:w-full md:max-[1300px]:w-2/4 min-[1300px]:grid min-[1000px]:grid-cols-2 gap-8  place-items-stretch  md:max-[1300px]:place-items-center px-6">
+          <section className="min-[780px]:flex min-[780px]:flex-col md:min-[780px]:w-full md:max-[1300px]:w-2/4 min-[1300px]:grid min-[1000px]:grid-cols-2 gap-8  place-items-center  md:max-[1300px]:place-items-center px-6">
             <div className="grid-cols-1 place-items-start mb-11 md:mb-0  md:grid md:grid-cols-2 gap-2  md:flex-row">
-              <div className="flex flex-col items-center space-y-5 mb-4 md:mb-0  mr-10">
+              <div className="flex flex-col items-center space-y-5 mb-4 md:mb-0 min-w-full  mr-10">
                 <Image
                   src={
                     "https://image.tmdb.org/t/p/original" +
