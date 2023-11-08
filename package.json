@@ -13,6 +13,7 @@
     "@nextui-org/react": "^2.1.13",
     "@tanstack/react-query": "^5.0.5",
     "@uidotdev/usehooks": "^2.4.1",
+    "@vercel/analytics": "^1.1.1",
     "axios": "^1.5.1",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.290.0",
