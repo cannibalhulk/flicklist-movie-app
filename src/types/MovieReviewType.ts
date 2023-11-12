@@ -5,7 +5,7 @@ type AuthorDetails = {
     rating: string
 }
 
-export interface MovieReviewResultType {
+export type MovieReviewResultType = {
     author: string
     author_details: AuthorDetails
     content: string
@@ -15,7 +15,7 @@ export interface MovieReviewResultType {
     url: string
 }
 
-export interface MovieReviewType {
+export type MovieReviewType = {
     id:number
     page: number
     results: MovieReviewResultType[]

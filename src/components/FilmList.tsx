@@ -1,3 +1,4 @@
+import { block } from 'million/react';
 import { useContext } from "react";
 import { MovieApiData } from "../contexts/MovieApiData";
 import { Image, Chip, Card, CardHeader, Button } from "@nextui-org/react";
@@ -13,7 +14,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { saveToLocalStorage } from "../functions/saveToLocalStorage";
 import { deleteItemFromLocalStorage } from "../functions/deleteFromLocalStorage";
 
-export default function FilmList() {
+const FilmList = block(()=> {
   const favoriteMovies: FavoritesStateType[] = useRecoilValue(favoriteMoviesSelector);
   const setFavoriteMovies = useSetRecoilState(favoriteMoviesState);
 
@@ -92,4 +93,6 @@ export default function FilmList() {
       })}
     </div>
   );
-}
+});
+
+export default FilmList;

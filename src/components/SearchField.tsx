@@ -33,6 +33,16 @@ export default function SearchField() {
   const [filter, setFilter] = useState<"title" | "vote_average">("title");
   let typeFilter: "inc" | "dec" = "inc";
 
+  function debounce(func: () => void, delay: number) {
+    let timeoutId: number;
+    return () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func();
+      }, delay);
+    };
+  }
+
   const options = useMemo(() => {
     return {
       method: "GET",
@@ -51,29 +61,33 @@ export default function SearchField() {
     };
   }, [title, selectedYear, page]);
 
-  useEffect(() => {
-    const loadMovies = async () => {
+  const debouncedLoadMovies = useMemo(() => {
+    return debounce(async () => {
       const response = await axios.request(options);
-      const filtered_result: MovieData = selection_sort(
-        filter,
-        response.data,
-        typeFilter
-      );
+      const filtered_result: MovieData = selection_sort(filter, response.data, typeFilter);
       const setDataObj = {
         data: filtered_result,
         favorites: favs,
       };
       setData(setDataObj);
       setTotalPage(filtered_result.total_pages);
-    };
+    }, 2000); // Adjust the debounce time as needed
+  }, [options, filter, typeFilter, favs]);
 
-    loadMovies();
+  useEffect(() => {
+    const debouncedLoad = debouncedLoadMovies() as unknown as number;
+
+    
     if (searchParams.get("title")) {
       setTitle(searchParams.get("title") ?? "");
     } else {
       setTitle("");
     }
-  }, [clicked, filter, options, typeFilter, favs, searchParams]);
+
+    return ()=>{
+      clearTimeout(debouncedLoad)
+    }
+  }, [clicked, filter, options, typeFilter, favs, searchParams, debouncedLoadMovies]);
 
   //FIXME:
   // const my_movie_prop_obj: ApiSearchTitleType = {
