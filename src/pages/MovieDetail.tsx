@@ -12,12 +12,12 @@ export default function MovieDetail() {
   const [isLoading, setLoading] = useState<boolean | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const backtoUrl = window.localStorage.getItem('backtoUrl')!;
   
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     // button click function
     e.preventDefault();
-    navigate("/movie");
+    navigate('../'+backtoUrl);
   }
 
   const options = useMemo(() => { // catching previous results according to movie_id
@@ -46,6 +46,8 @@ export default function MovieDetail() {
     }
 
     fetchMovieData();
+
+    console.log(window.location)
   }, [options]);
 
   return (

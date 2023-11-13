@@ -75,14 +75,22 @@ export default function SearchField() {
   }, [options, filter, typeFilter, favs]);
 
   useEffect(() => {
+    const ind_href = window.location.href.indexOf('movie'); // finding correct index of 'movie' string in the curr url
     const debouncedLoad = debouncedLoadMovies() as unknown as number;
-
+    if(localStorage.getItem('backtoUrl')){
+      localStorage.removeItem('backtoUrl');
+      localStorage.setItem('backtoUrl', window.location.href.slice(ind_href))
+    } else{
+      localStorage.setItem('backtoUrl', window.location.href.slice(ind_href));
+    }
     
     if (searchParams.get("title")) {
       setTitle(searchParams.get("title") ?? "");
     } else {
       setTitle("");
     }
+
+    
 
     return ()=>{
       clearTimeout(debouncedLoad)

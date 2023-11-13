@@ -54,7 +54,7 @@ const Reviews = () => {
       className="p-3 h-full flex flex-col space-y-5 overflow-x-auto overflow-y-scroll"
     >
       {reviews?.results.map((rev) => (
-        <ReviewDetails {...rev} />
+        <ReviewDetails key={rev.id} {...rev} />
       ))}
     </ScrollShadow>
   );
