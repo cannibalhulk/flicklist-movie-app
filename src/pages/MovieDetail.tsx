@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MovieDetailsResponseType } from "../types/MovieDetailsResponseType";
-import { Image, Button, Tooltip, Chip } from "@nextui-org/react";
+import { Image, Button, Tooltip, Chip, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { DollarSign, CalendarDays } from "lucide-react";
 import SkeletonUi from "../components/SkeletonUi";
+import { useMediaQuery } from "@uidotdev/usehooks";
 import axios from "axios";
 import Reviews from "./Reviews";
 export default function MovieDetail() {
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 570px)");
   const [movieDetail, setMovieDetail] =  useState<MovieDetailsResponseType | null>(null);
   const [isLoading, setLoading] = useState<boolean | null>(null);
   const { id } = useParams();
@@ -79,7 +81,9 @@ export default function MovieDetail() {
                   loading="lazy"
                   alt={movieDetail?.tagline}
                 />
-                <Tooltip
+                {
+                  !isSmallDevice ? (
+                    <Tooltip
                   className="bg-blue-300 text-black  min-w-1/4"
                   content={movieDetail?.vote_count}
                 >
@@ -87,6 +91,20 @@ export default function MovieDetail() {
                     FlickList Vote Count
                   </Button>
                 </Tooltip>
+                  ) : (
+                    <Popover placement="top">
+                      <PopoverTrigger>
+                        <Button className="text-white text-[13px] md:w-full md:text-[16px]  w-2/4" variant="bordered">
+                          FlickList Vote Count
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="bg-blue-300 text-black  min-w-1/4">
+                        {movieDetail?.vote_count}
+                      </PopoverContent>
+                    </Popover>
+                  )
+                }
+                
               </div>
               <div className=" flex flex-col justify-between">
                 <div className="flex flex-col space-y-7 items-center md:items-start ">
